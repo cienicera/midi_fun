@@ -92,10 +92,7 @@ function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <div className={styles.logoContainer}>
-          <img
-            src="https://starknetkit-website-f0ejy1m72-argentlabs.vercel.app/starknetKit-logo-white.svg"
-            alt="starknetkit logo"
-          />
+          
           <span>Autonomous Audio</span>
         </div>
         {isConnected ? (
@@ -110,14 +107,7 @@ function Home() {
       </div>
 
       <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="https://starknetkit-website-f0ejy1m72-argentlabs.vercel.app/starknetKit-logo-white.svg"
-          alt="Starknetkit Logo"
-          width={400}
-          height={150}
-          priority
-        />
+        
       </div>
 
       {/* Buttons Grid Section */}

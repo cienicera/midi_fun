@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.13.0",
     "@starknet-react/chains": "^0.1.5",
     "@starknet-react/core": "^2.9.0",
+    "encoding": "^0.1.13",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
     "framer-motion": "^11.5.2",
