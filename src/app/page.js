@@ -1,7 +1,6 @@
 "use client";
 import { Box, Grid, Button } from '@chakra-ui/react';
 import styles from "./page.module.css";
-import Image from "next/image";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { useStarknetkitConnectModal } from "starknetkit";
 import SendTransaction from './components/SendTransaction'; 
@@ -79,11 +78,12 @@ function Home() {
   const { disconnect } = useDisconnect();
   const { address, isConnected } = useAccount();
 
-  const connectWallet = async () => {
-    const { starknetkitConnectModal } = useStarknetkitConnectModal({
-      connectors: connectors,
-    });
+  // Place the useStarknetkitConnectModal hook here inside the component
+  const { starknetkitConnectModal } = useStarknetkitConnectModal({
+    connectors: connectors,
+  });
 
+  const connectWallet = async () => {
     const { connector } = await starknetkitConnectModal();
     await connect({ connector });
   };
@@ -92,7 +92,6 @@ function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <div className={styles.logoContainer}>
-          
           <span>Autonomous Audio</span>
         </div>
         {isConnected ? (
@@ -106,45 +105,27 @@ function Home() {
         )}
       </div>
 
-      <div className={styles.center}>
-        
-      </div>
+      <div className={styles.center}></div>
 
       {/* Buttons Grid Section */}
       <Box bg="gray.100" color="black" borderWidth="1px" borderRadius="md" paddingBottom="3px">
-        <Grid templateColumns="repeat(3, 1fr)" 
-  gap={4} 
-  mt={4} 
-  p={4} 
-  bg="gray.300" 
-  borderRadius="md">
-          <Box className={styles.card}>
-            <SendTransaction amount={1} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={2} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={3} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={4} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={5} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={6} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={7} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={8} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
-          <Box className={styles.card}>
-            <SendTransaction amount={9} contractAddress={contractAddress} abi={contractAbi} />
-          </Box>
+        <Grid 
+          templateColumns="repeat(3, 1fr)" 
+          gap={4} 
+          mt={4} 
+          p={4} 
+          bg="gray.300" 
+          borderRadius="md"
+        >
+          <SendTransaction amount={1} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={2} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={3} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={4} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={5} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={6} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={7} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={8} contractAddress={contractAddress} abi={contractAbi} />
+          <SendTransaction amount={9} contractAddress={contractAddress} abi={contractAbi} />
         </Grid>
       </Box>
     </main>
