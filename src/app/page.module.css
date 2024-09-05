@@ -1,0 +1,213 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(-45deg, #21396a, #1d0a05, #2a264a, #270c06);
+  min-height: 100vh;
+}
+
+.description {
+  margin: 0;
+  padding: 1rem;
+  background-color: rgba(var(--callout-rgb), 0.5);
+  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  width: 100%;
+  z-index: 2;
+}
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 700px) {
+  .description {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.connectBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+.connectbtn,
+.connectlinkbtn {
+  background-color: #008fb9;
+  cursor: pointer;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 25px;
+  width: 8rem;
+}
+.connectlinkbtn {
+  width: 100%;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 4rem 0;
+  margin-top: 4rem;
+}
+@media (min-width: 700px) {
+  .center {
+    margin-top: 0;
+  }
+}
+.center::before {
+  background: var(--secondary-glow);
+  border-radius: 50%;
+  width: 480px;
+  height: 360px;
+  margin-left: -400px;
+}
+
+.center::after {
+  background: var(--primary-glow);
+  width: 240px;
+  height: 180px;
+  z-index: -1;
+}
+
+.center::before,
+.center::after {
+  content: "";
+  left: 50%;
+  position: absolute;
+  filter: blur(45px);
+  transform: translateZ(0);
+}
+
+.logo {
+  position: relative;
+}
+.grid {
+  display: grid;
+  gap: 1rem;
+  padding-inline: 5%;
+}
+@media (min-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(25%, auto));
+    padding-inline: 10%;
+  }
+}
+.card h2 {
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+.card {
+  padding: 1rem 1.2rem;
+  border-radius: var(--border-radius);
+  background: rgba(var(--card-rgb), 0);
+  border: 1px solid rgba(var(--card-border-rgb), 0);
+  transition: background 200ms, border 200ms;
+}
+.card span {
+  display: inline-block;
+  transition: transform 200ms;
+}
+.card p {
+  margin: 0;
+  opacity: 0.6;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    background: rgba(var(--card-rgb), 0.1);
+    border: 1px solid rgba(var(--card-border-rgb), 0.15);
+  }
+
+  .card:hover span {
+    transform: translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .card:hover span {
+    transform: none;
+  }
+}
+.modalOverlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  width: 100vw;
+  height: 100vh;
+}
+.modal {
+  background-color: #eeebeb;
+  background-color: rgb(230, 230, 237);
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: zoomIn 1s both;
+}
+.modalTopContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+@media (min-width: 700px) {
+  .modalTopContainer {
+    gap: 3rem;
+  }
+}
+.closeBtn {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background-color: #44434399;
+}
+.connectbtnContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.modalHeading {
+  color: black;
+}
+.connectbtn {
+  background-color: #0fafdf;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem;
+}
+.connectbtn:hover {
+  background-color: #1d0a05;
+  transition: all 0.3s;
+}
+@keyframes zoomIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
