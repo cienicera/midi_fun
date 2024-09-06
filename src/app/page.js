@@ -43,7 +43,7 @@ function Home() {
       <div className={styles.center}></div>
 
       {/* Buttons Grid Section */}
-      <Box bg="gray.100" color="black" borderWidth="1px" borderRadius="md" paddingBottom="6px">
+      <Box className={styles.buttonsContainer} bg="gray.100" color="black" borderWidth="1px" borderRadius="md" paddingBottom="6px">
       <Grid 
   templateColumns="repeat(3, 1fr)" 
   gap={24} 
