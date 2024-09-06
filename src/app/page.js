@@ -4,74 +4,9 @@ import styles from "./page.module.css";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { useStarknetkitConnectModal } from "starknetkit";
 import SendTransaction from './components/SendTransaction'; 
+import { contractAbi } from './contracts/contractAbi';
 
 const contractAddress = '0x05a7ee0a287951464bcdfaa8c25194714f458106a0af16339723ce0a2ab36fad';
-
-const contractAbi = [
-  {
-    "name": "HelloStarknetImpl",
-    "type": "impl",
-    "interface_name": "hello_cairo::IHelloStarknet"
-  },
-  {
-    "name": "hello_cairo::IHelloStarknet",
-    "type": "interface",
-    "items": [
-      {
-        "name": "increase_balance",
-        "type": "function",
-        "inputs": [
-          {
-            "name": "amount",
-            "type": "core::felt252"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "external"
-      },
-      {
-        "name": "get_balance",
-        "type": "function",
-        "inputs": [],
-        "outputs": [
-          {
-            "type": "core::felt252"
-          }
-        ],
-        "state_mutability": "view"
-      }
-    ]
-  },
-  {
-    "kind": "struct",
-    "name": "hello_cairo::HelloStarknet::AudioParams",
-    "type": "event",
-    "members": [
-      {
-        "kind": "key",
-        "name": "synthid",
-        "type": "core::felt252"
-      },
-      {
-        "kind": "data",
-        "name": "value",
-        "type": "core::felt252"
-      }
-    ]
-  },
-  {
-    "kind": "enum",
-    "name": "hello_cairo::HelloStarknet::Event",
-    "type": "event",
-    "variants": [
-      {
-        "kind": "nested",
-        "name": "AudioParams",
-        "type": "hello_cairo::HelloStarknet::AudioParams"
-      }
-    ]
-  }
-];
 
 function Home() {
   const { connect, connectors } = useConnect();
@@ -108,25 +43,25 @@ function Home() {
       <div className={styles.center}></div>
 
       {/* Buttons Grid Section */}
-      <Box bg="gray.100" color="black" borderWidth="1px" borderRadius="md" paddingBottom="3px">
-        <Grid 
-          templateColumns="repeat(3, 1fr)" 
-          gap={4} 
-          mt={4} 
-          p={4} 
-          bg="gray.300" 
-          borderRadius="md"
-        >
-          <SendTransaction amount={1} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={2} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={3} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={4} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={5} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={6} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={7} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={8} contractAddress={contractAddress} abi={contractAbi} />
-          <SendTransaction amount={9} contractAddress={contractAddress} abi={contractAbi} />
-        </Grid>
+      <Box bg="gray.100" color="black" borderWidth="1px" borderRadius="md" paddingBottom="6px">
+      <Grid 
+  templateColumns="repeat(3, 1fr)" 
+  gap={24} 
+  mt={0}  /* Remove or reduce the margin to bring it higher */
+  p={14} 
+  bg="gray.300" 
+  borderRadius="md"
+>
+  <SendTransaction amount={1} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Sparkle" />
+  <SendTransaction amount={2} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Accelerandos" />
+  <SendTransaction amount={3} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Crackle" />
+  <SendTransaction amount={4} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Melody" />
+  <SendTransaction amount={5} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Boom" />
+  <SendTransaction amount={6} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Drone" />
+  <SendTransaction amount={7} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Chords" />
+  <SendTransaction amount={8} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Percussive" />
+  <SendTransaction amount={9} contractAddress={contractAddress} abi={contractAbi} buttonLabel="Change Chords" />
+</Grid>
       </Box>
     </main>
   );

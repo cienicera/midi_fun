@@ -3,7 +3,7 @@ import { useAccount } from '@starknet-react/core';
 import { Contract } from 'starknet';
 import { Button, Center, Box, Spinner, Text } from '@chakra-ui/react';
 
-function SendTransaction({ amount, contractAddress, abi }) {
+function SendTransaction({ amount, contractAddress, abi, buttonLabel }) {
   const { address: account, account: starknetAccount } = useAccount(); // Get the connected account
 
   const [transactionHash, setTransactionHash] = useState('');
@@ -95,7 +95,7 @@ function SendTransaction({ amount, contractAddress, abi }) {
   return (
     <>
       <Button onClick={sendTransaction}>
-        Increase Balance by {amount}
+        {buttonLabel || `Increase Balance by ${amount}`} {/* Use the passed label or fallback to default */}
       </Button>
       {error && <Text color="red">{error}</Text>} {/* Display error */}
       {transactionResult === undefined && isPolling ? (

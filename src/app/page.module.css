@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;  /* Align items to the top */
   align-items: center;
   background: linear-gradient(-45deg, #21396a, #1d0a05, #2a264a, #270c06);
   min-height: 100vh;
@@ -55,8 +55,8 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 4rem 0;
-  margin-top: 4rem;
+  padding: 1rem 0;  /* Reduce the padding */
+  margin-top: 0;    /* Remove the margin to bring it higher */
 }
 @media (min-width: 700px) {
   .center {
