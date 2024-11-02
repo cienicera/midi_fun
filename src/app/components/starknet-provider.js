@@ -1,27 +1,44 @@
-"use client";
+"use client"; // Add this line at the top
 
-import { InjectedConnector } from "starknetkit/injected";
-import { ArgentMobileConnector } from "starknetkit/argentMobile";
-import { WebWalletConnector } from "starknetkit/webwallet";
-import { StarknetConfig, publicProvider } from "@starknet-react/core";
-import { goerli, mainnet } from "@starknet-react/chains"
+import React, { useEffect } from "react";
+import {
+  StarknetConfig,
+  publicProvider,
+  cartridgeProvider,
+  voyager,
+} from "@starknet-react/core";
+import { sepolia, mainnet } from "@starknet-react/chains";
+import Controller from "@cartridge/controller";
+
+// Define your policies
+const policies = [
+  {
+    target: "0x05a7ee0a287951464bcdfaa8c25194714f458106a0af16339723ce0a2ab36fad", // Replace with your contract address
+    method: "increase_balance", // Method name in your contract
+    description: "Allows increasing the balance", // Description for the user
+  }
+];
 
 export default function StarknetProvider({ children }) {
-  const chains = [goerli, mainnet]
-  const provider = publicProvider()
-  const connectors = [
-    new InjectedConnector({ options: { id: "argentX", name: "Argent" } }),
-    new InjectedConnector({ options: { id: "braavos", name: "Braavos" } }),
-    new WebWalletConnector({ url: "https://web.argent.xyz" }),
-    new ArgentMobileConnector(),
-  ];
+  const chains = [mainnet, sepolia];
+  const provider = publicProvider();
+
+  useEffect(() => {
+    async function setupController() {
+      const controller = new Controller();
+      await controller.connect();
+      // Handle any additional logic, e.g., setting the connected account
+    }
+
+    setupController();
+  }, []);
 
   return (
-    <StarknetConfig 
+    <StarknetConfig
       chains={chains}
       provider={provider}
-      connectors={connectors} 
       autoConnect
+      explorer={voyager}
     >
       {children}
     </StarknetConfig>
