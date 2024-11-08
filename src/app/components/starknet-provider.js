@@ -25,7 +25,7 @@ export default function StarknetProvider({ children }) {
 
   useEffect(() => {
     async function setupController() {
-      const controller = new Controller();
+      const controller = new Controller(policies);
       await controller.connect();
       // Handle any additional logic, e.g., setting the connected account
     }
