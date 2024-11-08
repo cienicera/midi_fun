@@ -1,58 +1,62 @@
-import React, { useState } from 'react';
-import { useAccount } from '@starknet-react/core';
-import { Button, Center, Box, Spinner, Text } from '@chakra-ui/react';
+import React, { useState } from "react";
+import { Button, Box, Spinner, Text } from "@chakra-ui/react";
+import { useAccountContext } from "../../starknet-provider";
 
-function SendTransaction({ amount, contractAddress, abi, buttonLabel }) {
-  const { account: starknetAccount } = useAccount(); // Get the connected account
-  const [transactionHash, setTransactionHash] = useState('');
-  const [transactionResult, setTransactionResult] = useState(undefined);
-  const [isPolling, setIsPolling] = useState(false);
+const ETH_CONTRACT = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
+
+export default function SendTransaction({ amount, buttonLabel }) {
+  const starknetAccount = useAccountContext();
+  const [transactionHash, setTransactionHash] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  const sendTransaction = async () => {
-    if (starknetAccount) {
-      try {
-        // Make sure the contract instance and policies are in place
-        const response = await starknetAccount.execute({
-          contractAddress,
-          entrypoint: "increase_balance", // Ensure this matches your method in the policy
-          calldata: [amount.toString()], // Pass the amount as calldata
-        });
+  const executeTransaction = async () => {
+    if (!starknetAccount) {
+      setError("No account connected. Please connect your wallet.");
+      return;
+    }
 
-        setTransactionHash(response.transaction_hash);
-        setTransactionResult(undefined); // Show spinner while polling
-        setIsPolling(true); // Start polling transaction status
+    setIsSubmitting(true);
+    setError(null);
 
-        // Poll the transaction status (you can use your existing pollTransactionStatus function)
-      } catch (err) {
-        console.error('Transaction failed:', err);
-        setError('Transaction failed. Please try again.');
-      }
-    } else {
-      setError('No account connected. Please connect your wallet.');
+    try {
+      const response = await starknetAccount.execute([
+        {
+          contractAddress: ETH_CONTRACT,
+          entrypoint: "approve",
+          calldata: [starknetAccount.address, amount.toString(), "0x0"],
+        },
+        {
+          contractAddress: ETH_CONTRACT,
+          entrypoint: "transfer",
+          calldata: [starknetAccount.address, amount.toString(), "0x0"],
+        },
+      ]);
+
+      setTransactionHash(response.transaction_hash);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      setError("Transaction failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <>
-      <Button onClick={sendTransaction}>
-        {buttonLabel || `Increase Balance by ${amount}`}
+      <Button onClick={executeTransaction} disabled={isSubmitting}>
+        {buttonLabel || `Transfer ${amount} ETH`}
       </Button>
       {error && <Text color="red">{error}</Text>}
-      {transactionResult === undefined && isPolling ? (
-        <Center>
-          <Spinner />
-        </Center>
+      {isSubmitting ? (
+        <Spinner />
       ) : (
         transactionHash && (
           <Box>
             <Text>Transaction Hash: {transactionHash}</Text>
-            <Text>Status: {transactionResult?.status || 'Pending'}</Text>
           </Box>
         )
       )}
     </>
   );
 }
-
-export default SendTransaction;

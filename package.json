@@ -14,7 +14,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@starknet-react/chains": "^0.1.5",
+    "@starknet-react/chains": "^0.1.7",
     "@starknet-react/core": "^2.9.0",
     "encoding": "^0.1.13",
     "eslint": "8.49.0",
