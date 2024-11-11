@@ -9,6 +9,7 @@ import {
 } from "@starknet-react/core";
 import { sepolia, mainnet } from "@starknet-react/chains";
 import Controller from "@cartridge/controller";
+import connector from "./connector";
 
 // Define your policies
 const policies = [
@@ -26,7 +27,7 @@ export default function StarknetProvider({ children }) {
   useEffect(() => {
     async function setupController() {
       const controller = new Controller();
-      await controller.connect();
+      await connector.connect();
       // Handle any additional logic, e.g., setting the connected account
     }
 
@@ -39,6 +40,7 @@ export default function StarknetProvider({ children }) {
       provider={provider}
       autoConnect
       explorer={voyager}
+      connectors={[connector]}
     >
       {children}
     </StarknetConfig>
