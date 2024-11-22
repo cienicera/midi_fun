@@ -6,6 +6,7 @@ import { contractAbi } from "./contracts/contractAbi";
 import { useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import connector from "./components/connector";
+import SoundFontPlayer from "./components/SoundFontPlayer";
 
 const contractAddress = "0x05a7ee0a287951464bcdfaa8c25194714f458106a0af16339723ce0a2ab36fad";
 const sepoliaAddress = "0x07d08c25f35091012463841369755f0547bc3f3d9fb72df0112ae6461ef75073";
@@ -99,7 +100,7 @@ function Home() {
 
       <Box
         className={styles.buttonsContainer}
-        bg="gray.100"
+        bg="gray.300"
         color="black"
         borderWidth="1px"
         borderRadius="md"
@@ -108,6 +109,7 @@ function Home() {
         maxW="100vw" 
         overflow="hidden" 
       >
+        <SoundFontPlayer />
         <Grid
           templateColumns={gridColumns}
           gap={gridGap}
