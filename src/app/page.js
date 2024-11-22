@@ -1,5 +1,5 @@
 "use client";
-import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Grid, useBreakpointValue, Slider, SliderTrack, SliderFilledTrack, SliderThumb, VStack, Text } from "@chakra-ui/react";
 import styles from "./page.module.css";
 import SendTransaction from "./components/SendTransaction";
 import { contractAbi } from "./contracts/contractAbi";
@@ -17,6 +17,13 @@ function Home() {
   const { disconnect } = useDisconnect();
   const { address } = useAccount();
   const [username, setUsername] = useState(" ");
+
+  // tempo in beats per minute
+  const [tempo, setTempo] = useState(120);
+  // note duration in seconds
+  const [noteDuration, setNoteDuration] = useState(0.5);
+  // transpose in semitones
+  const [transpose, setTranspose] = useState(0);
 
   const gridColumns = useBreakpointValue({
     base: "repeat(2, 1fr)",
@@ -96,6 +103,71 @@ function Home() {
         </Box>
       </Box>
 
+      <Box
+        className={styles.slidersContainer}
+        bg="gray.100"
+        color="black"
+        borderWidth="1px"
+        borderRadius="md"
+        m={4}
+        pb='6px'
+        pr='3px'
+        maxW="100vw"
+      >
+        <Grid 
+          templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} 
+          gap={4}
+          p={4}
+          bg="gray.300"
+          borderRadius="md"
+        >
+          <VStack align="stretch">
+            <Text>Tempo: {tempo}</Text>
+            <Slider
+              min={60}
+              max={200}
+              value={tempo}
+              onChange={(value) => setTempo(value)}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </VStack>
+
+          <VStack align="stretch">
+            <Text>Note Duration: {noteDuration.toFixed(2)}</Text>
+            <Slider
+              min={0.1}
+              max={2}
+              step={0.1}
+              value={noteDuration}
+              onChange={(value) => setNoteDuration(value)}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </VStack>
+
+          <VStack align="stretch">
+            <Text>Transpose: {transpose}</Text>
+            <Slider
+              min={-12}
+              max={12}
+              value={transpose}
+              onChange={(value) => setTranspose(value)}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </VStack>
+        </Grid>
+      </Box>
 
       <Box
         className={styles.buttonsContainer}
@@ -121,54 +193,81 @@ function Home() {
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Sparkle"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={2}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Accelerandos"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={3}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Crackle"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={4}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Melody"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={5}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Boom"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={6}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Drone"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={7}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Chords"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={8}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Percussive"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
           <SendTransaction
             amount={9}
             contractAddress={sepoliaAddress}
             abi={contractAbi}
             buttonLabel="Change Chords"
+            tempo={tempo}
+            noteDuration={noteDuration}
+            transpose={transpose}
           />
         </Grid>
       </Box>

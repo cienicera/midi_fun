@@ -10,7 +10,15 @@ import {
   VStack
 } from '@chakra-ui/react';
 
-function SendTransaction({ amount, contractAddress, abi, buttonLabel }) {
+function SendTransaction({ 
+  amount, 
+  contractAddress, 
+  abi, 
+  buttonLabel,
+  tempo,
+  noteDuration,
+  transpose
+}) {
   const { account: starknetAccount } = useAccount();
   const [transactionHash, setTransactionHash] = useState('');
   const explorer = useExplorer();
