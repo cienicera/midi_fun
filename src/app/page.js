@@ -1,14 +1,18 @@
 "use client";
 import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
-import styles from "./page.module.css";
+import styles from "./components/styles/page.module.css";
 import SendTransaction from "./components/SendTransaction";
 import { contractAbi } from "./contracts/contractAbi";
 import { useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import connector from "./components/connector";
+import Image from "next/image";
+import arrow from "/public/arr.png";
 
-const contractAddress = "0x05a7ee0a287951464bcdfaa8c25194714f458106a0af16339723ce0a2ab36fad";
-const sepoliaAddress = "0x07d08c25f35091012463841369755f0547bc3f3d9fb72df0112ae6461ef75073";
+const contractAddress =
+  "0x05a7ee0a287951464bcdfaa8c25194714f458106a0af16339723ce0a2ab36fad";
+const sepoliaAddress =
+  "0x07d08c25f35091012463841369755f0547bc3f3d9fb72df0112ae6461ef75073";
 
 function Home() {
   const [controller, setController] = useState(null);
@@ -20,23 +24,16 @@ function Home() {
 
   const gridColumns = useBreakpointValue({
     base: "repeat(2, 1fr)",
-    sm: "repeat(2, 1fr)", 
-    md: "repeat(3, 1fr)", 
-    lg: "repeat(3, 1fr)"
+    sm: "repeat(2, 1fr)",
+    md: "repeat(3, 1fr)",
+    lg: "repeat(3, 1fr)",
   });
 
   const gridGap = useBreakpointValue({
     base: 4,
-    sm: 6, 
-    md: 12, 
-    lg: 24 
-  });
-
-  const gridPadding = useBreakpointValue({
-    base: 4, 
     sm: 6,
-    md: 10,
-    lg: 14 
+    md: 12,
+    lg: 24,
   });
 
   useEffect(() => {
@@ -53,36 +50,16 @@ function Home() {
     initController();
   }, []);
 
-
   return (
     <main className={styles.main}>
-      <Box 
-        className={styles.description}
-        px={4}
-        w="full" 
-        maxW="100vw" 
-      >
+      <Box className={styles.description}>
         <Box className={styles.logoContainer}>
           <span>Autonomous Audio</span>
         </Box>
 
-        <Box 
-          display="flex"
-          flexDir={{ base: "column", sm: "row" }}
-          alignItems="center"
-          gap={2}
-        >
+        <Box display="flex" alignItems="center" gap={2}>
           {address && (
-            <>
-              <Box 
-                fontSize={{ base: "sm", md: "md" }}
-                textAlign="center"
-                marginRight="2rem"
-              >
-                {/* <p>Account: {address.slice(0, 5)}...{address.slice(-4)} </p> */}
-                {username && <p>{username}</p>}
-              </Box>
-            </>
+            <Box marginRight="2rem">{username && <p>{username}</p>}</Box>
           )}
 
           <button
@@ -96,26 +73,19 @@ function Home() {
         </Box>
       </Box>
 
+      <div className={styles.heroSection}>
+        <button className={styles.welcomeBtn}>
+          Welcome to Autonomus Audio
+        </button>
+        <h1>Reimagine Music,</h1>
+        <h1>Redefine Creation</h1>
+        <button className={styles.exploreBtn}>
+          <span className={styles.arrow}>➡</span> Explore Now
+        </button>
+      </div>
 
-      <Box
-        className={styles.buttonsContainer}
-        bg="gray.100"
-        color="black"
-        borderWidth="1px"
-        borderRadius="md"
-        paddingBottom="6px"
-        mx={4}
-        maxW="100vw" 
-        overflow="hidden" 
-      >
-        <Grid
-          templateColumns={gridColumns}
-          gap={gridGap}
-          mt={0}
-          p={gridPadding}
-          bg="gray.300"
-          borderRadius="md"
-        >
+      <Box className={styles.buttonsContainer}>
+        <Grid templateColumns={gridColumns} gap={gridGap} mt={0}>
           <SendTransaction
             amount={1}
             contractAddress={sepoliaAddress}
