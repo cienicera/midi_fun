@@ -79,12 +79,13 @@ function Home() {
         </button>
         <h1>Reimagine Music,</h1>
         <h1>Redefine Creation</h1>
-        <button className={styles.exploreBtn}>
-          <span className={styles.arrow}>➡</span> Explore Now
-        </button>
+        <a href="#down-cont" className={styles.exploreBtn}>
+          <span className={styles.arrow}>➡</span>{" "}
+          <span className={styles.exploreT}>Explore Now</span>
+        </a>
       </div>
 
-      <Box className={styles.buttonsContainer}>
+      <Box id="down-cont" className={styles.buttonsContainer}>
         <Grid templateColumns={gridColumns} gap={gridGap} mt={0}>
           <SendTransaction
             amount={1}
