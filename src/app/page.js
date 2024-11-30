@@ -2,6 +2,7 @@
 import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
 import styles from "./page.module.css";
 import SendTransaction from "./components/SendTransaction";
+import RNBOComponent from "./components/RNBOComponent";
 import { contractAbi } from "./contracts/contractAbi";
 import { useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
@@ -53,7 +54,6 @@ function Home() {
     initController();
   }, []);
 
-
   return (
     <main className={styles.main}>
       <Box 
@@ -73,16 +73,13 @@ function Home() {
           gap={2}
         >
           {address && (
-            <>
-              <Box 
-                fontSize={{ base: "sm", md: "md" }}
-                textAlign="center"
-                marginRight="2rem"
-              >
-                {/* <p>Account: {address.slice(0, 5)}...{address.slice(-4)} </p> */}
-                {username && <p>{username}</p>}
-              </Box>
-            </>
+            <Box 
+              fontSize={{ base: "sm", md: "md" }}
+              textAlign="center"
+              marginRight="2rem"
+            >
+              {username && <p>{username}</p>}
+            </Box>
           )}
 
           <button
@@ -95,7 +92,6 @@ function Home() {
           </button>
         </Box>
       </Box>
-
 
       <Box
         className={styles.buttonsContainer}
@@ -116,61 +112,29 @@ function Home() {
           bg="gray.300"
           borderRadius="md"
         >
-          <SendTransaction
-            amount={1}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Sparkle"
-          />
-          <SendTransaction
-            amount={2}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Accelerandos"
-          />
-          <SendTransaction
-            amount={3}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Crackle"
-          />
-          <SendTransaction
-            amount={4}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Melody"
-          />
-          <SendTransaction
-            amount={5}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Boom"
-          />
-          <SendTransaction
-            amount={6}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Drone"
-          />
-          <SendTransaction
-            amount={7}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Chords"
-          />
-          <SendTransaction
-            amount={8}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Percussive"
-          />
-          <SendTransaction
-            amount={9}
-            contractAddress={sepoliaAddress}
-            abi={contractAbi}
-            buttonLabel="Change Chords"
-          />
+          <SendTransaction amount={1} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Sparkle" />
+          <SendTransaction amount={2} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Accelerandos" />
+          <SendTransaction amount={3} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Crackle" />
+          <SendTransaction amount={4} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Melody" />
+          <SendTransaction amount={5} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Boom" />
+          <SendTransaction amount={6} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Drone" />
+          <SendTransaction amount={7} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Chords" />
+          <SendTransaction amount={8} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Percussive" />
+          <SendTransaction amount={9} contractAddress={sepoliaAddress} abi={contractAbi} buttonLabel="Change Chords" />
         </Grid>
+      </Box>
+
+      {/* RNBOComponent integration */}
+      <Box 
+        mt={10} 
+        p={4} 
+        bg="gray.200" 
+        width={'50%'}
+        borderWidth="1px" 
+        borderRadius="md"
+        marginBottom={'30px'}
+      >
+        <RNBOComponent />
       </Box>
     </main>
   );
