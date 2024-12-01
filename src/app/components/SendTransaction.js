@@ -1,116 +1,137 @@
-import React, { useState, useEffect } from 'react';
-import { useAccount } from '@starknet-react/core';
-import { Contract } from 'starknet';
-import { Button, Center, Box, Spinner, Text } from '@chakra-ui/react';
+import React, { useCallback, useState } from 'react';
+import { useAccount, useExplorer } from "@starknet-react/core";
+import { 
+  Button, 
+  Center, 
+  Box, 
+  Spinner, 
+  Text, 
+  useToast,
+  VStack
+} from '@chakra-ui/react';
 
 function SendTransaction({ amount, contractAddress, abi, buttonLabel }) {
-  const { address: account, account: starknetAccount } = useAccount(); // Get the connected account
-
+  const { account: starknetAccount } = useAccount();
   const [transactionHash, setTransactionHash] = useState('');
+  const explorer = useExplorer();
   const [transactionResult, setTransactionResult] = useState(undefined);
   const [isPolling, setIsPolling] = useState(false);
-  const [intervalId, setIntervalId] = useState(null);
-  const [error, setError] = useState(null); // Track errors
+  const [error, setError] = useState(null);
+  const toast = useToast();
 
-  // Create contract instance with the connected account
-  const contract = starknetAccount ? new Contract(abi, contractAddress, starknetAccount) : null;
-  console.log('Contract:', contract);
-
-  useEffect(() => {
-    return () => {
-      if (intervalId) clearInterval(intervalId); // Cleanup polling interval on component unmount
-    };
-  }, [intervalId]);
-
-  const pollTransactionStatus = async (txHash) => {
-    const newIntervalId = setInterval(async () => {
-      try {
-        const result = await starknetAccount.provider.waitForTransaction(txHash); // Wait for the transaction result
-        console.log('Transaction status updated:', result);
-        setTransactionResult(result);
-
-        if (
-          result?.finality_status === 'ACCEPTED_ON_L2' ||
-          result?.execution_status === 'SUCCEEDED'
-        ) {
-          clearInterval(newIntervalId);
-          setIsPolling(false);
-        }
-      } catch (error) {
-        console.error('Error while polling transaction status:', error);
-      }
-    }, 5000);
-    setIntervalId(newIntervalId); // Set the interval ID for cleanup
+  const toHex = (value) => {
+    return `0x${Number(value).toString(16)}`;
   };
 
-  const sendTransaction = async () => {
-    if (starknetAccount) {
-      console.log('Wallet is connected:', starknetAccount);
-  
-      try {
-        // Ensure the 'increase_balance' method exists in the contract ABI
-        if (!contract.functions || !contract.functions.increase_balance) {
-          throw new Error('increase_balance method not found in contract ABI');
-        }
-  
-        console.log('Sending amount as string:', amount.toString());
-  
-        // Wrap contract invocation in a try-catch to handle both user rejection and any StarkNet errors
-        try {
-          const response = await contract.functions.increase_balance(amount.toString()).invoke({
-            maxFee: '1000000000000000', // Set a maximum fee
-          });
-  
-          console.log('Response from increase_balance:', response);
-  
-          if (response.transaction_hash) {
-            console.log('Transaction Hash:', response.transaction_hash);
-            setTransactionHash(response.transaction_hash);
-            setTransactionResult(undefined); // Show spinner
-            setIsPolling(true); // Start polling the transaction status
-            pollTransactionStatus(response.transaction_hash);
-          }
-        } catch (innerError) {
-          // Check for user abort error specifically
-          if (innerError.message.toLowerCase().includes('user abort') || innerError.message.toLowerCase().includes('user rejected')) {
-            console.log('Transaction rejected by user.');
-            setError('Transaction rejected by user.');
-          } else {
-            // Handle all other errors
-            console.error('Transaction failed:', innerError);
-           // setError('Transaction failed. Please check your wallet and contract interaction.');
-          }
-        }
-      } catch (error) {
-        console.error('Unexpected error in sendTransaction:', error);
-        setError('Unexpected error. Please try again.');
+  const showToast = useCallback((title, description, status) => {
+    toast({
+      title,
+      description,
+      status,
+      duration: 5000,
+      isClosable: true,
+      position: 'top',
+      variant: 'solid',
+    });
+  }, [toast]);
+
+  const sendTransaction = useCallback(
+    async (amount) => {
+      if (!starknetAccount) {
+        setError('No account connected. Please connect your wallet.');
+        showToast(
+          'Error',
+          'No account connected. Please connect your wallet.',
+          'error'
+        );
+        return;
       }
-    } else {
-      console.log('No account connected');
-      setError('No account connected. Please connect your wallet.');
-    }
-  };
-  
+
+      try {
+        setIsPolling(true);
+        const hexAmount = toHex(amount);
+        
+        const { transaction_hash } = await starknetAccount.execute({
+          contractAddress,
+          entrypoint: "increase_balance",
+          calldata: [hexAmount],
+        });
+
+        setTransactionHash(transaction_hash);
+        setTransactionResult({ status: 'Success' });
+        setIsPolling(false)
+
+        // Show success toast with truncated hash
+        const truncatedHash = `${transaction_hash.slice(0, 6)}...${transaction_hash.slice(-4)}`;
+        showToast(
+          'Transaction Submitted',
+          `Transaction Hash: ${truncatedHash}`,
+          'success'
+        );
+
+      } catch (err) {
+        console.error('Transaction failed:', err || undefined);
+        setError('Transaction failed. Please try again.');
+        setIsPolling(false);
+        
+        showToast(
+          'Transaction Failed',
+          err.message || 'An error occurred during the transaction. Please try again.',
+          'error'
+        );
+      }
+    },
+    [starknetAccount, contractAddress, showToast]
+  );
 
   return (
-    <>
-      <Button onClick={sendTransaction}>
-        {buttonLabel || `Increase Balance by ${amount}`} {/* Use the passed label or fallback to default */}
+    <VStack spacing={4} align="stretch" >
+      <Button 
+        onClick={() => sendTransaction(amount)}
+        colorScheme="blue"
+        isLoading={isPolling}
+        loadingText="Submitting"
+      >
+        {buttonLabel || `Increase Balance by ${amount}`}
       </Button>
-      {error && <Text color="red">{error}</Text>} {/* Display error */}
-      {transactionResult === undefined && isPolling ? (
-        <Center>
-          <Spinner />
-        </Center>
-      ) : (
-        transactionHash && (
-          <Box>
-            <Text>Transaction Hash: {transactionHash}</Text>
-            <Text>Status: {transactionResult?.status || 'Pending'}</Text>
-          </Box>
-        )
+      
+      {error && (
+        <Text color="red.500" fontSize="sm">
+          {error}
+        </Text>
       )}
-    </>
+      
+      {transactionHash && (
+        <Box 
+          p={4} 
+          borderRadius="md" 
+          borderWidth="1px"
+          borderColor="gray.200"
+          background={'white'}
+          textColor={'black'}
+          width={150}
+        >
+          <Text fontSize="sm" color={'blue'} textDecoration={'underline'} >
+            <a href={explorer.transaction(transactionHash)}
+            target='_blank'
+            rel='noreferrer'
+            >
+              view transaction
+            </a>
+          </Text>
+          <Text fontSize="sm" mt={2}>
+            Status: {transactionResult?.status || 'Pending'}
+          </Text>
+        </Box>
+      )}
+      
+      {isPolling && !transactionResult && (
+        <Center p={4}>
+          <Spinner size="sm" mr={2} />
+          <Text fontSize="sm">Processing transaction...</Text>
+        </Center>
+      )}
+    </VStack>
   );
 }
 

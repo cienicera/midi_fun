@@ -1,0 +1,155 @@
+.rnbo-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .initialize-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .initialize-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .control-panel {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .patcher-title {
+    margin: 0 0 20px;
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .tab {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #6c757d;
+    transition: all 0.2s;
+  }
+  
+  .tab.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+  }
+  
+  .tab-content {
+    display: none;
+    padding: 20px 0;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  .midi-keyboard {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .midi-key {
+    width: 120px;
+    height: 60px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.1s;
+  }
+  
+  .midi-key:active {
+    background-color: #e9ecef;
+  }
+  
+  .presets {
+    text-align: start;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+  
+  .presets select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    margin-top: 10px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .parameter-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .parameter-control {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .parameter-control label {
+    font-size: 14px;
+    color: #495057;
+  }
+  
+  .slider-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .slider-container input[type="range"] {
+    flex: 1;
+  }
+  
+  .slider-container input[type="number"] {
+    width: 80px;
+    padding: 4px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+  }
+  
+  .console-output {
+    background-color: #212529;
+    color: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    font-family: monospace;
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .console-output pre {
+    margin: 0;
+    white-space: pre-wrap;
+  }
