@@ -127,9 +127,9 @@ function Home() {
       {/* RNBOComponent integration */}
       <Box 
         mt={10} 
-        p={4} 
+        p={'1px'} 
         bg="gray.200" 
-        width={'50%'}
+        width={'42%'}
         borderWidth="1px" 
         borderRadius="md"
         marginBottom={'30px'}
